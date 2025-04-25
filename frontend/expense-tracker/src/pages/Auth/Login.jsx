@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import AuthLayout from '../../components/AuthLayout';
+import React, { useContext, useState } from 'react';
+import AuthLayout from '../../components/layouts/AuthLayout.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../components/Inputs/Input.jsx';
 import { validateEmail } from '../../utils/helper.js';
+import { UserContext } from '../../context/UserContext.jsx';
+import axiosInstance from '../../utils/axiosInstance.js'
+import { API_PATHS } from '../../utils/apiPaths.js'
 
 
 const Login = () => {
@@ -10,6 +13,8 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+
+    const { updateUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -40,6 +45,7 @@ const Login = () => {
 
             if (token) {
                 localStorage.setItem('token', token);
+                updateUser(user);
                 navigate("/dashboard");
             }
         } catch (error) {

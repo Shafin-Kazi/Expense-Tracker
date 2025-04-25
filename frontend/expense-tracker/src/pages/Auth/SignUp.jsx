@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import AuthLayout from '../../components/AuthLayout';
+import React, { useContext, useState } from 'react';
+import AuthLayout from '../../components/layouts/AuthLayout.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../components/Inputs/Input.jsx';
 import { validateEmail } from '../../utils/helper.js';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector.jsx';
-
+import axiosInstance from '../../utils/axiosInstance.js';
+import { API_PATHS } from '../../utils/apiPaths.js';
+import { UserContext } from '../../context/UserContext';
+import uplaodImage from '../../utils/uploadImage.js';
 
 
 
@@ -16,8 +19,12 @@ const SignUp = () => {
 
     const [error, setError] = useState(null);
 
+    const { updateUser } = useContext(UserContext);
+
     const navigate = useNavigate();
 
+
+    //Handle Sign Up form submit
     const handleSignUp = async (e) => {
         e.preventDefault();
 
@@ -39,9 +46,41 @@ const SignUp = () => {
         }
 
         setError("");
+
+        //signup api call
+        try {
+
+            //upload img if prsnt
+            if (profilePic) {
+                const imgUploadRes = await uplaodImage(profilePic);
+                profileImageUrl = imgUploadRes.imageUrl || "";
+            }
+            const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+                fullName,
+                email,
+                password,
+                profileImageUrl
+            });
+
+            const { token, user } = response.data;
+
+            if (token) {
+                localStorage.setItem("token", token);
+                updateUser(user);
+                navigate("/dashboard");
+            }
+
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+
+                setError(error.response.data.message);
+            }
+            else {
+
+                setError("Something went wrong. Please try again.");
+            }
+        }
     }
-
-
     return (
         <AuthLayout>
             <div className='pt-40 lg:w-[100%] md:h-full md:mt-0 h-auto flex flex-col justify-center'>
@@ -50,7 +89,7 @@ const SignUp = () => {
                     Join us today by entering your details below
                 </p>
 
-                <form onSubmit={handleSignUp}>
+                <form onSubmit={handleSignUp} className='form-for-signup'>
 
                     <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
@@ -77,6 +116,7 @@ const SignUp = () => {
                                 label="Password"
                                 placeholder="Min 8 characters"
                                 type="password"
+                                autocomplete="new-password"
                             />
                         </div>
                     </div>
