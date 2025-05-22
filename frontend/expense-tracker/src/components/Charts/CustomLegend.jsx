@@ -11,7 +11,7 @@ const CustomLegend = ({ payload }) => {
 
                     </div>
                     <span className='text-sm text-gray-700 font-medium'>
-                        {entry.name}
+                        {entry.value}
                     </span>
                 </div>
             ))
