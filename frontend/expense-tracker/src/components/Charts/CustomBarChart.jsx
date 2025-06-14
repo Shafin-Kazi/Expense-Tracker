@@ -1,5 +1,74 @@
-import React from 'react'
-import moment from 'moment'
+// import React from 'react'
+// import moment from 'moment'
+// import {
+//     BarChart,
+//     Bar,
+//     XAxis,
+//     YAxis,
+//     CartesianGrid,
+//     Tooltip,
+//     Legend,
+//     ResponsiveContainer,
+//     Cell,
+// } from 'recharts'
+
+
+// const CustomBarChart = ({ data }) => {
+
+//     //function to alt colors
+
+//     const getBarColor = (index) => {
+//         return index % 2 === 0 ? '#875cf5' : '#cfbefb';
+//     };
+
+
+//     const CustomTooltip = ({ active, payload }) => {
+//         if (active && payload && payload.length) {
+//             return (
+//                 <div className='bg-white shadow-md rounded-lg p-2 border border-gray-300 '>
+//                     <p className='text-xs font-semibold text-purple-800 mb-1'>{payload[0].payload.category}</p>
+//                     <p className='text-sm text-gray-600'>
+//                         Amount: <span className='text-sm font-medium text-gray-900'>${payload[0].payload.amount}</span>
+//                     </p>
+//                 </div>
+//             )
+//         }
+//         return null;
+//     };
+
+
+//     return (
+//         <div className='bg-white mt-6'>
+//             <ResponsiveContainer width="100%" height={300}>
+//                 <BarChart data={data}>
+//                     <CartesianGrid stroke='none' />
+//                     <XAxis dataKey="month" tick={{ fontsize: 12, fill: '#555' }} stroke='none' />
+//                     <YAxis tick={{ fontsize: 12, fill: '#555' }} stroke='none' />
+//                     <Tooltip
+//                         content={<CustomTooltip />}
+//                     />
+//                     <Bar
+//                         dataKey="amount"
+//                         fill="#ff8042"
+//                         radius={[10, 10, 0, 0]}
+//                         activeDot={{ r: 8, fill: 'yellow' }}
+//                         activeStyle={{ fill: 'green' }} >
+//                         {data.map((entry, index) =>
+//                         (<Cell key={index} fill={getBarColor(index)} />
+//                         ))}
+//                     </Bar>
+//                 </BarChart>
+//             </ResponsiveContainer>
+//         </div>
+//     )
+// }
+
+// export default CustomBarChart
+
+
+
+import React from 'react';
+import moment from 'moment';
 import {
     BarChart,
     Bar,
@@ -7,56 +76,63 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
     Cell,
-} from 'recharts'
-
+} from 'recharts';
 
 const CustomBarChart = ({ data }) => {
-
-    //function to alt colors
-    const CustomBarChart = ({ data }) => {
-        const getBarColor = (index) => {
-            return index % 2 === 0 ? '#875cf5' : '#cfbeffb';
-        };
-    }
+    const getBarColor = (index) => {
+        return index % 2 === 0 ? '#875cf5' : '#cfbefb';
+    };
 
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
-                <div className='bg-white shadow-md rounded-lg p-2 border border-gray-300 '>
-                    <p className='text-xs font-semibold text-purple-800 mb-1'>{payload[0].payload.category}</p>
-                    <p className='text-sm text-gary-600'>
+                <div className='bg-white shadow-md rounded-lg p-2 border border-gray-300'>
+                    <p className='text-xs font-semibold text-purple-800 mb-1'>
+                        {payload[0].payload.category}
+                    </p>
+                    <p className='text-sm text-gray-600'>
                         Amount: <span className='text-sm font-medium text-gray-900'>${payload[0].payload.amount}</span>
                     </p>
                 </div>
-            )
+            );
         }
         return null;
     };
 
+    // Format the X axis month values (e.g., "2024-05-01" → "1st May")
+    // const formatMonth = (tick) => moment(tick).format('Do MMM');
+    const formatMonth = (tick) => {
+        const date = moment(tick);
+        return date.isValid() ? date.format('Do MMM') : 'Invalid date';
+    };
 
     return (
         <div className='bg-white mt-6'>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width='100%' height={300}>
                 <BarChart data={data}>
                     <CartesianGrid stroke='none' />
-                    <XAxis dataKey="month" tick={{ fontsize: 12, fill: '#555' }} stroke='none' />
-                    <YAxis tick={{ fontsize: 12, fill: '#555' }} stroke='none' />
-                    <Tooltip
-                        content={<CustomTooltip />}
+                    <XAxis
+                        dataKey='month'
+                        tick={{ fontSize: 12, fill: '#555' }}
+                        stroke='none'
+                        tickFormatter={formatMonth}
                     />
+                    <YAxis tick={{ fontSize: 12, fill: '#555' }} stroke='none' />
+                    <Tooltip content={<CustomTooltip />} />
                     <Bar
-                        dataKey="amount"
-                        fill="#FF8042"
+                        dataKey='amount'
                         radius={[10, 10, 0, 0]}
-                        activeDot={{ r: 8, fill: 'yellow' }}
-                        activeStyle={{ fill: 'green' }} />
+                    >
+                        {data.map((entry, index) => (
+                            <Cell key={index} fill={getBarColor(index)} />
+                        ))}
+                    </Bar>
                 </BarChart>
             </ResponsiveContainer>
         </div>
-    )
-}
+    );
+};
 
-export default CustomBarChart
+export default CustomBarChart;
