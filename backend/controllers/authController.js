@@ -93,3 +93,38 @@ exports.getUserInfo = async (req, res) => {
     }
 };
 
+//update user profile
+exports.updateUser = async (req, res) => {
+    try {
+        const { fullName, profileImageUrl } = req.body;
+        const userId = req.user.id;
+
+        // Validation
+        if (!fullName) {
+            return res.status(400).json({ message: "Full name is required" });
+        }
+
+        // Find and update user
+        const user = await User.findByIdAndUpdate(
+            userId,
+            {
+                fullName,
+                ...(profileImageUrl && { profileImageUrl })
+            },
+            { new: true, runValidators: true }
+        ).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user);
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Error updating user",
+            error: err.message
+        });
+    }
+};
+

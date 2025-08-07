@@ -1,9 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
 
-const ProfilePhotoSelector = ({ image, setImage }) => {
+const ProfilePhotoSelector = ({ image, setImage, currentImageUrl }) => {
     const inputRef = useRef(null);
     const [previewUrl, setPreviewUrl] = useState(null);
+
+    useEffect(() => {
+        if (currentImageUrl && !image) {
+            setPreviewUrl(currentImageUrl);
+        }
+    }, [currentImageUrl, image]);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -19,13 +25,17 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
     const handleRemoveImage = () => {
         setImage(null);
         setPreviewUrl(null);
+        // Clear the input
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
     };
 
     const onChooseFile = () => {
         inputRef.current.click();
     };
 
-
+    const hasImage = image || previewUrl;
 
     return <div className='flex justify-center mb-6'>
         <input type="file"
@@ -34,12 +44,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
             onChange={handleImageChange}
             className='hidden' />
 
-
-
-
-
-
-        {!image ? (
+        {!hasImage ? (
             <div className='w-20 h-20 flex items-center justify-center bg-purple-300 rounded-full relative'>
                 <LuUser className='text-4xl text-primary' />
 
@@ -61,13 +66,17 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
                     className='w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-2 -right-2 cursor-pointer'
                     onClick={handleRemoveImage}>
                     <LuTrash />
+                </button>
 
+                <button
+                    type="button"
+                    className='w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full absolute -bottom-2 -left-2 cursor-pointer'
+                    onClick={onChooseFile}>
+                    <LuUpload />
                 </button>
             </div>
-        )
-
-
-        }
+        )}
     </div>
 }
+
 export default ProfilePhotoSelector;

@@ -4,6 +4,8 @@ import moment from 'moment'
 import TransactionInfoCard from '../Cards/TransactionInfoCard'
 
 const RecentTransactions = ({ transactions, onSeeMore }) => {
+    const hasTransactions = Array.isArray(transactions) && transactions.length > 0;
+
     return (
         <div className='card'>
             <div className='flex items-center justify-between'>
@@ -15,17 +17,24 @@ const RecentTransactions = ({ transactions, onSeeMore }) => {
             </div>
 
             <div className='mt-6'>
-                {transactions?.slice(0, 5)?.map((item) => (
-                    <TransactionInfoCard
-                        key={item._id}
-                        title={item.type == 'expense' ? item.category : item.source}
-                        icon={item.icon}
-                        date={moment(item.date).format("Do MMMM")}
-                        amount={item.amount}
-                        type={item.type}
-                        hideDeleteBtn
-                    />
-                ))}
+                {hasTransactions ? (
+                    transactions.slice(0, 5).map((item) => (
+                        <TransactionInfoCard
+                            key={item._id}
+                            title={item.type === 'expense' ? item.category : item.source}
+                            icon={item.icon}
+                            date={moment(item.date).format("Do MMM")}
+                            amount={item.amount}
+                            type={item.type}
+                            hideDeleteBtn
+                        />
+                    ))
+                ) : (
+                    <div className="text-center py-8 text-gray-500">
+                        <p>No recent transactions available</p>
+                        <p className="text-xs mt-1">Start adding income or expenses to see them here</p>
+                    </div>
+                )}
             </div>
         </div>
     )

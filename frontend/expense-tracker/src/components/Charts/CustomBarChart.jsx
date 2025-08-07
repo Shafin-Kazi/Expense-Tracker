@@ -101,12 +101,8 @@ const CustomBarChart = ({ data }) => {
         return null;
     };
 
-    // Format the X axis month values (e.g., "2024-05-01" → "1st May")
-    // const formatMonth = (tick) => moment(tick).format('Do MMM');
-    const formatMonth = (tick) => {
-        const date = moment(tick);
-        return date.isValid() ? date.format('Do MMM') : 'Invalid date';
-    };
+    // The month is already formatted in the data
+    const formatMonth = (tick) => tick;
 
     return (
         <div className='bg-white mt-6'>

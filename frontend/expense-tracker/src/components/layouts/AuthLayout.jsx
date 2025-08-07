@@ -1,15 +1,18 @@
 import React from 'react'
 import card from 'C:\\Users\\ASUS\\OneDrive\\Documents\\ExpenseTracker\\frontend\\expense-tracker\\src\\assets\\images\\image3.png'
+import logo from '../../assets/images/money.png'
 import { LuTrendingUpDown } from "react-icons/lu";
 
 
 const AuthLayout = ({ children }) => {
     return (
         <div className="flex">
-            <div className='w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12'>
-
-                <h2 className='text-lg font-medium text-black'>Expense Tracker
-                    {children}</h2>
+            <div className='w-screen h-screen md:w-[60vw] px-4 sm:px-8 md:px-12 pt-4 sm:pt-6 md:pt-8 pb-4 sm:pb-8 md:pb-12 overflow-y-auto md:overflow-hidden'>
+                <div className='flex items-center gap-2 mb-4'>
+                    <img src={logo} alt="TrakHive Logo" className='w-6 h-6' />
+                    <h2 className='text-lg font-medium text-black'>TrakHive</h2>
+                </div>
+                {children}
             </div>
             <div className='hidden md:block w-[40vw] h-screen bg-violet-50 bg-auth-bg-img bg-cover bg-no-repeat bg-center overflow-hidden p-8 relative'>
                 <div className='w-48 h-48 rounded-[40px] bg-purple-600 absolute -top-7 -left-5'></div>

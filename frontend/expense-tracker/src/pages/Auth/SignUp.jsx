@@ -7,7 +7,7 @@ import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector.j
 import axiosInstance from '../../utils/axiosInstance.js';
 import { API_PATHS } from '../../utils/apiPaths.js';
 import { UserContext } from '../../context/UserContext';
-import uplaodImage from '../../utils/uploadImage.js';
+import uploadImage from '../../utils/uploadImage.js';
 
 
 
@@ -52,7 +52,7 @@ const SignUp = () => {
 
             //upload img if prsnt
             if (profilePic) {
-                const imgUploadRes = await uplaodImage(profilePic);
+                const imgUploadRes = await uploadImage(profilePic);
                 profileImageUrl = imgUploadRes.imageUrl || "";
             }
             const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
@@ -83,48 +83,55 @@ const SignUp = () => {
     }
     return (
         <AuthLayout>
-            <div className='pt-40 lg:w-[100%] md:h-full md:mt-0 h-auto flex flex-col justify-center'>
+            <div className='w-full max-w-lg pt-4 md:pt-20 lg:pt-40 h-full flex flex-col justify-center px-4 sm:px-0'>
                 <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
                 <p className='text-xs text-slate-700 mt-[5px] mb-6'>
                     Join us today by entering your details below
                 </p>
 
-                <form onSubmit={handleSignUp} className='form-for-signup'>
+                <form onSubmit={handleSignUp} className='space-y-4'>
 
                     <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        <Input
-                            value={fullName}
-                            onChange={({ target }) => setFullName(target.value)}
-                            label="Full Name"
-                            placeholder="Shaf"
-                            type="text"
-                        />
+                        <div className='md:col-span-1'>
+                            <Input
+                                value={fullName}
+                                onChange={({ target }) => setFullName(target.value)}
+                                label="Full Name"
+                                placeholder="Shaf"
+                                type="text"
+                            />
+                        </div>
 
-                        <Input
-                            value={email}
-                            onChange={({ target }) => setEmail(target.value)}
-                            label="Email Address"
-                            placeholder="shaf@example.com"
-                            type="text"
-                        />
-                        <div className='col-span-2'>
+                        <div className='md:col-span-1'>
+                            <Input
+                                value={email}
+                                onChange={({ target }) => setEmail(target.value)}
+                                label="Email Address"
+                                placeholder="shaf@example.com"
+                                type="text"
+                            />
+                        </div>
+
+                        <div className='md:col-span-2'>
                             <Input
                                 value={password}
                                 onChange={({ target }) => setPassword(target.value)}
                                 label="Password"
                                 placeholder="Min 8 characters"
                                 type="password"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                             />
                         </div>
                     </div>
+
                     {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
 
                     <button type='submit' className='btn-primary'>
                         SIGN UP
                     </button>
+
                     <p className='text-[13px] text-slate-800 mt-3'>
                         Already have an account?{" "}
                         <Link className='font-medium text-primary underline' to="/login">login</Link>

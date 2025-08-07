@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import logo from '../../assets/images/money.png'
 import SideMenu from "./SideMenu";
 
 const Navbar = ({ activeMenu }) => {
@@ -20,8 +21,10 @@ const Navbar = ({ activeMenu }) => {
 
 
             </button>
-            <h2 className='text-lg font-medium text-black'>
-                TrakHive</h2>
+            <div className='flex items-center gap-2 ml-8 lg:ml-0'>
+                <img src={logo} alt="TrakHive Logo" className='w-6 h-6' />
+                <h2 className='text-lg font-medium text-black'>TrakHive</h2>
+            </div>
 
             {
                 openSideMenu && (
