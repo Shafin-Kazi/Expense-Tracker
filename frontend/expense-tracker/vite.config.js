@@ -16,7 +16,26 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       transformMixedEsModules: true
+    },
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          charts: ['recharts'],
+          icons: ['react-icons']
+        }
+      }
     }
+  },
+  server: {
+    port: 5173,
+    host: true
+  },
+  preview: {
+    port: 5173,
+    host: true
   }
 })
 
