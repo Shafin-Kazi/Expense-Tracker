@@ -29,8 +29,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
-    res.status(200).json({ 
-        status: "OK", 
+    res.status(200).json({
+        status: "OK",
         message: "Server is running",
         timestamp: new Date().toISOString()
     });
@@ -74,4 +74,11 @@ app.use("*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Only start server if not in Vercel environment
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+// Export for Vercel
+module.exports = app;
