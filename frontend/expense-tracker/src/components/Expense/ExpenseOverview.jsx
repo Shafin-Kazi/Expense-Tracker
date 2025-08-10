@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { prepareExpenseBarChartData, prepareExpenseLineChartData } from '../../utils/helper';
+import { prepareExpenseLineChartData } from '../../utils/helper';
 import { LuPlus } from 'react-icons/lu';
 import CustomLineChart from '../Charts/CustomLineChart';
 

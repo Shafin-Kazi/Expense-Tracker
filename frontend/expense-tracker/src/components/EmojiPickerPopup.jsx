@@ -1,4 +1,4 @@
-import React, { isValidElement } from 'react'
+import React from 'react'
 import EmojiPicker from 'emoji-picker-react';
 import { LuImage, LuX } from 'react-icons/lu';
 import { useState } from 'react';

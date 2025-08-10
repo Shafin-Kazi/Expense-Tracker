@@ -36,6 +36,9 @@ export default defineConfig({
   preview: {
     port: 5173,
     host: true
+  },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
   }
 })
 
