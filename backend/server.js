@@ -12,6 +12,19 @@ const dashboardRoutes = require("./routes/dashboardRoutes")
 const app = express();
 
 // Health check route
+app.get("/", (req, res) => {
+    res.status(200).json({ 
+        status: "OK", 
+        message: "TrakHive API Server is running",
+        endpoints: {
+            auth: "/api/v1/auth",
+            income: "/api/v1/income", 
+            expense: "/api/v1/expense",
+            dashboard: "/api/v1/dashboard"
+        }
+    });
+});
+
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "OK", message: "Server is running" });
 });
@@ -28,6 +41,7 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Initialize database connection
 connectDB();
 
 app.use("/api/v1/auth", authRoutes);
