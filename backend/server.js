@@ -13,12 +13,15 @@ const app = express();
 
 // Health check route
 app.get("/", (req, res) => {
-    res.status(200).json({ 
-        status: "OK", 
+    res.status(200).json({
+        status: "OK",
         message: "TrakHive API Server is running",
+        version: "1.0.0",
+        environment: process.env.NODE_ENV || "development",
+        database: process.env.MONGO_URI ? "connected" : "not configured",
         endpoints: {
             auth: "/api/v1/auth",
-            income: "/api/v1/income", 
+            income: "/api/v1/income",
             expense: "/api/v1/expense",
             dashboard: "/api/v1/dashboard"
         }
@@ -26,7 +29,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
-    res.status(200).json({ status: "OK", message: "Server is running" });
+    res.status(200).json({ 
+        status: "OK", 
+        message: "Server is running",
+        timestamp: new Date().toISOString()
+    });
 });
 
 //middleware, cors ko handle krne k lie
