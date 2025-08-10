@@ -1,5 +1,5 @@
 import React from 'react'
-import card from 'C:\\Users\\ASUS\\OneDrive\\Documents\\ExpenseTracker\\frontend\\expense-tracker\\src\\assets\\images\\image3.png'
+import card from '../../assets/images/image3.png'
 import logo from '../../assets/images/money.png'
 import { LuTrendingUpDown } from "react-icons/lu";
 
