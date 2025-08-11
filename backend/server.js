@@ -42,6 +42,7 @@ app.use(
         origin: process.env.CLIENT_URL || "*",
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
     })
 );
 
@@ -75,10 +76,12 @@ app.use("*", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Only start server if not in Vercel environment
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
+// Start server for all environments
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Database: ${process.env.MONGO_URI ? 'Connected' : 'Not configured'}`);
+});
 
-// Export for Vercel
+// Export for serverless platforms
 module.exports = app;

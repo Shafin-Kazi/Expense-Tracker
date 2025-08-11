@@ -4,13 +4,13 @@ module.exports = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    
+
     // Handle preflight requests
     if (req.method === 'OPTIONS') {
         res.status(200).end();
         return;
     }
-    
+
     // Simple health check
     if (req.url === '/' || req.url === '/health') {
         res.status(200).json({
@@ -23,13 +23,13 @@ module.exports = (req, res) => {
         });
         return;
     }
-    
+
     // For all other routes, return info message
     res.status(200).json({
         message: "TrakHive Backend API",
         endpoints: {
             auth: "/api/v1/auth",
-            income: "/api/v1/income", 
+            income: "/api/v1/income",
             expense: "/api/v1/expense",
             dashboard: "/api/v1/dashboard"
         },
